@@ -143,8 +143,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "mavakadjango@gmail.com"
-EMAIL_HOST_PASSWORD = "zo5k7scd"
+EMAIL_HOST_USER = os.environ.get('DB_HOST_GMAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('DB_HOST_GMAIL_PASS')
 INITIAL_CREDIT = 100
 #MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 #MESSAGE_EXPIRE_SECONDS = 1
