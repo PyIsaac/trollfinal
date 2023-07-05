@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\magnu\PycharmProjects\pythonProject1\django_project\idk"
+VIRTUAL_ENV="C:\Users\magnu\Desktop\django_project\myenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
@@ -55,9 +55,9 @@ fi
 
 if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
     _OLD_VIRTUAL_PS1="${PS1:-}"
-    PS1="(idk) ${PS1:-}"
+    PS1="(myenv) ${PS1:-}"
     export PS1
-    VIRTUAL_ENV_PROMPT="(idk) "
+    VIRTUAL_ENV_PROMPT="(myenv) "
     export VIRTUAL_ENV_PROMPT
 fi
 
