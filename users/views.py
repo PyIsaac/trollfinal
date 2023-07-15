@@ -68,39 +68,9 @@ class DateTimeEncoderExtra(DjangoJSONEncoder):
 
 @login_required
 def play_game(request):
-    """user = request.user
-    try:
-        score_obj = Credit(user=user) #.objects.get
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted
-        score_obj.save()
-    except Credit.DoesNotExist:
-        score = 100
-        score_obj = Credit(user=user, score=score, date=timezone.now())
-        score_obj.save()
-        date_created = timezone.now() - score_obj.date_posted
-
-    except json.JSONDecodeError:
-        score_obj = Credit(user=user)  #.objects.get
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted
-
     user = request.user
-    try:
-        score_obj = Credit(user=user)
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted
-    except Credit.DoesNotExist:
-        score = 100
-        score_obj = Credit(user=user, score=score, date=timezone.now())
-        score_obj.save()
-        date_created = timezone.now() - score_obj.date_posted
-
-    except json.JSONDecodeError:
-        score_obj = Credit(user=user)
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted"""
-    user = request.user
+    game = play_game
+    top_scores = Credit.objects.order_by('-score')[:10]
     messages.warning(request, 'After you invest your score, it will take x hours to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
@@ -246,13 +216,14 @@ def play_game(request):
 
         enddata = {
             'datetime': request.session.get('last_action'),
-            'context': context
+            'context': context,
+            'scores': top_scores
         }
         json_data = json.dumps({'data':str(enddata)}, cls=DateTimeEncoderExtra)
 
         #def returner():
             #return render(request, 'users/play_game.html', context) #and redirect('troll-about')
-        return HttpResponse(json_data, content_type='application/json') and render(request, 'users/play_game.html', context)# and redirect('troll-about')
+        return HttpResponse(json_data, content_type='application/json') and render(request, 'users/play_game.html', context) # and redirect('troll-about')
         #returner()
 
 class Game:
@@ -387,38 +358,8 @@ def about(request):
 
 @login_required
 def thorton(request):
-    """user = request.user
-    try:
-        score_obj = Credit(user=user) #.objects.get
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted
-        score_obj.save()
-    except Credit.DoesNotExist:
-        score = 100
-        score_obj = Credit(user=user, score=score, date=timezone.now())
-        score_obj.save()
-        date_created = timezone.now() - score_obj.date_posted
-
-    except json.JSONDecodeError:
-        score_obj = Credit(user=user)  #.objects.get
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted
-
-    user = request.user
-    try:
-        score_obj = Credit(user=user)
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted
-    except Credit.DoesNotExist:
-        score = 100
-        score_obj = Credit(user=user, score=score, date=timezone.now())
-        score_obj.save()
-        date_created = timezone.now() - score_obj.date_posted
-
-    except json.JSONDecodeError:
-        score_obj = Credit(user=user)
-        score = score_obj.score
-        date_created = timezone.now() - score_obj.date_posted"""
+    game = thorton
+    top_scores = Credit.objects.order_by('-score')[:10]
     user = request.user
     messages.warning(request, 'After you invest your score, it will take x hours to update so you can leave for then.')
     try:
@@ -556,7 +497,8 @@ def thorton(request):
 
         enddata = {
             'datetime': request.session.get('last_action'),
-            'context': context
+            'context': context,
+            'scores' : top_scores
         }
         json_data = json.dumps({'data': str(enddata)}, cls=DateTimeEncoderExtra)
 
@@ -565,3 +507,25 @@ def thorton(request):
         return HttpResponse(json_data, content_type='application/json') and render(request, 'users/thorton.html',
                                                                                    context)  # and redirect('troll-about')
         # returner()
+
+def highscores(request):
+    queryset = Credit.objects.order_by('-score')[:10]
+
+    if queryset:
+        first_credit = queryset[0]
+        username = first_credit.user.username
+        score = first_credit.score
+    else:
+        username = None
+        score = None
+
+    context = {
+        'username': username,
+        'score': score,
+        'scores': queryset,
+    }
+
+    return render(request, 'users/highscores.html', context)
+
+
+

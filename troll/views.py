@@ -13,6 +13,14 @@ import random
 from .models import Post
 
 
+from django.contrib.auth.models import User
+from django.shortcuts import render
+
+
+
+
+
+
 
 def home(request):
     context = {
@@ -79,6 +87,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def about(request):
 
     return render(request, 'troll/about.html', {'title': 'About'})
+
 
 
 
