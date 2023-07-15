@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-from.settings_secret import MIDDLEWARE, SECRET_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_PORT
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,16 +19,34 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+import os
+MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
 
+SECRET_KEY = 'django-insecure-1$$$(9*&_!2w&f0&xen$i(3gbj$t%lrz(+eg4^oee4gr_w@3^6'
+
+EMAIL_HOST_USER = os.environ.get('DB_HOST_GMAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('DB_HOST_GMAIL_PASS')
+
+EMAIL_PORT = 587
+ADMINS = [("PyIsaac", "magnus.valter.kaljuste@gmail.com")]
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["pyisaac.pythonanywhere.com"]
 
-
+ADMINS = ADMINS
 # Application definition
 
 INSTALLED_APPS = [
