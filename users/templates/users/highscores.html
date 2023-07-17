@@ -1,0 +1,59 @@
+{% extends "troll/base.html" %}
+{% block content %}
+<head>
+    <style>
+        .rainbow-text {
+            display: inline-block;
+            font-size: 30px;
+        }
+
+        .rainbow-text span {
+            animation: rainbow-letter 5s linear infinite;
+        }
+
+        @keyframes rainbow-letter {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            100% { color: red; }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var colors = ['red', 'orange', 'yellow', 'green', 'blue'];
+            var delay = 0;
+            $('.rainbow-text').each(function() {
+                var text = $(this).text();
+                var newText = '';
+                for (var i = 0; i < text.length; i++) {
+                    var letter = text[i];
+                    var colorIndex = i % colors.length;
+                    var animationDelay = delay + colorIndex * 0.1; // Adjust the delay duration as needed
+                    newText += '<span class="letter" style="animation-delay:' + animationDelay + 's; color:' + colors[colorIndex] + '">' + letter + '</span>';
+                    delay += 0.1; // Adjust the delay duration as needed
+                }
+                $(this).html(newText);
+            });
+        });
+    </script>
+</head>
+<h1>Users High Scores</h1>
+<br>
+{% if username and score %}
+    <strong><p class="rainbow-text">Top user: {{ username }} - {{ score }}</p></strong>
+{% endif %}
+{% if scores %}
+    <h3><ol>
+        {% for score in scores %}
+            <li>{{ score.user.username }} - {{ score.score }}</li>
+        {% endfor %}
+    </ol></h3>
+{% else %}
+    <p>No high scores found.</p>
+{% endif %}
+
+
+{% endblock content %}

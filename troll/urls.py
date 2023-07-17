@@ -9,6 +9,9 @@ from .views import (
 
 )	
 
+
+
+
 from . import views
 
 urlpatterns = [
@@ -20,7 +23,13 @@ urlpatterns = [
 	path('post/<int:pk>/delete/', PostDeleteView.as_view(), name ='post-delete'),
 
 
+
 ]
+
+
+
+
+
 
 
 

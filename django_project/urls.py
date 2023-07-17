@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from users import views as user_views
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
@@ -42,7 +43,9 @@ urlpatterns = [
         name='password_reset_complete'),
     path('crypto/', user_views.play_game, name='crypto'),
     path('about/', user_views.about, name ='users-about'),
-    path('thorton/', user_views.thorton, name='thorton')
+    path('thorton/', user_views.thorton, name='thorton'),
+    path('leaderboard/', user_views.highscores, name='leader'),
+
 
 ]
 
