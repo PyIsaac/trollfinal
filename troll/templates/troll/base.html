@@ -11,6 +11,43 @@
         left: 0px;
     }
 </style>
+    <style>
+        .rainbow-textpost {
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .rainbow-textpost span {
+            animation: rainbow-letter 5s linear infinite;
+        }
+
+        @keyframes rainbow-letter {
+            0.01% { color: yellow; }
+            30% { color: grey ; }
+            69% { color: white; }
+
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var colors = ['grey', 'white', 'yellow'];
+            var delay = 0;
+            $('.rainbow-textpost').each(function() {
+                var text = $(this).text();
+                var newText = '';
+                for (var i = 0; i < text.length; i++) {
+                    var letter = text[i];
+                    var colorIndex = i % colors.length;
+                    var animationDelay = delay + colorIndex * 0.1; // Adjust the delay duration as needed
+                    newText += '<span class="letter" style="animation-delay:' + animationDelay + 's; color:' + colors[colorIndex] + '">' + letter + '</span>';
+                    delay += 0.1; // Adjust the delay duration as needed
+                }
+                $(this).html(newText);
+            });
+        });
+    </script>
+
 
 <head>
     <meta charset="utf-8">
@@ -85,13 +122,13 @@
           {% block content %}{% endblock %}
           
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="position: fixed; top: 10vh; right: 0; height: 100vh;">
           <div class="content-section">
             <h3>Our Sidebar</h3>
             <p class='text-muted'>Channel links
               <ul class="list-group">
                 <li class="list-group-item list-group-item-bg-black"><a class="nav-item nav-link" href="{% url 'leader' %}">Leaderboard</a></li>
-                <li class="list-group-item list-group-item-bg-black"></li>
+                <li class="list-group-item list-group-item-bg-black"><a class="nav-item nav-link rainbow-textpost" href="{% url 'troll-postcol' %}">SHItposts!!</a></li>
                 <li class="list-group-item list-group-item-bg-black"></li>
                 <li class="list-group-item list-group-item-bg-black"></li>
               </ul>

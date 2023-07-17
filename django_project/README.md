@@ -1,2 +1,0 @@
-# trollfinal
-blahbkl

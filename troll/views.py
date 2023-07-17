@@ -29,6 +29,12 @@ def home(request):
 
     return render(request, 'troll/home.html', context)
 
+def postscol(request):
+    context = {
+        'homeposts': Post.objects.all()
+    }
+
+    return render(request, 'troll/postcol.html', context)
 class PostListView(ListView):
     model = Post
     template_name = 'troll/home.html' # <app>/<model>_<viewtype>.html
