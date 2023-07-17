@@ -47,6 +47,7 @@ urlpatterns = [
     path('leaderboard/', user_views.highscores, name='leader'),
 
 
+
 ]
 
 if settings.DEBUG:

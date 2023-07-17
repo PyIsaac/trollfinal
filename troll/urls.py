@@ -1,4 +1,6 @@
 from django.urls import path, include
+
+import troll.views
 from .views import (
 	PostListView, 
 	PostDetailView, 
@@ -16,6 +18,7 @@ from . import views
 
 urlpatterns = [
 	path('', PostListView.as_view(), name ='troll-home'),
+	path('posts', troll.views.postscol, name ='troll-postcol'),
 	path('user/<str:username>', UserPostListView.as_view(), name ='user-posts'),
 	path('post/<int:pk>/', PostDetailView.as_view(), name ='post-detail'),
 	path('post/new/', PostCreateView.as_view(), name ='post-create'),
