@@ -40,6 +40,7 @@ class Credit(models.Model):
     scoreback = models.IntegerField(default=0)
     scorebackinfo = models.TextField(default="")
     scorebackreal = models.TextField(default="")
+    aboutstart = models.BooleanField(default=False)
 
     def update_score(self):
         if self.owner_starts and self.user is not None:

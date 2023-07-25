@@ -71,7 +71,7 @@ def play_game(request):
     user = request.user
     game = play_game
     top_scores = Credit.objects.order_by('-score')[:10]
-    messages.warning(request, 'After you invest your score, it will take x hours to update so you can leave for then.')
+    messages.warning(request, 'After you invest your score, it will take 14 seconds to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
         score = score_obj.score
@@ -118,7 +118,7 @@ def play_game(request):
         startdate = datetime(2023, 4, 28, 15, 30, 45) #request.POST.get('startdate', '2023-04-23')
         enddate = () #request.POST.get('enddate', '2023-04-24')
         if startdate is not None:
-            
+
 
             i = True
             #startdate_obj = json_data1
@@ -132,7 +132,7 @@ def play_game(request):
             else:
 
                 playerinput = float(request.POST.get('player_input', 0))
-                
+
                 game = Game(score, playerinput)
 
 
@@ -141,7 +141,7 @@ def play_game(request):
                     request.session['invested'] = playerinput
                     request.session['last_action'] = str(timezone.now())
 
-                    
+
 
                     updated_score = game.get_updated_score()
                     if updated_score is False:
@@ -181,8 +181,8 @@ def play_game(request):
                             score_obj.save()
                             return HttpResponseBadRequest("game.get_progress(")
 
-                            
-                        
+
+
                 else:
                     context['error'] = 'Not enough credit to invest'
         else:
@@ -361,7 +361,7 @@ def thorton(request):
     game = thorton
     top_scores = Credit.objects.order_by('-score')[:10]
     user = request.user
-    messages.warning(request, 'After you invest your score, it will take x hours to update so you can leave for then.')
+    messages.warning(request, 'After you invest your score, it will take 14 seconds to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
         score = score_obj.score
