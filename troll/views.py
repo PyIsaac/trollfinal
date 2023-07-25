@@ -15,7 +15,7 @@ from .models import Post
 
 from django.contrib.auth.models import User
 from django.shortcuts import render
-
+from users.models import Credit
 
 
 
@@ -24,20 +24,20 @@ from django.shortcuts import render
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+
     }
 
     return render(request, 'troll/home.html', context)
 
 def postscol(request):
     context = {
-        'homeposts': Post.objects.all()
+        'posts': Post.objects.all()
     }
 
     return render(request, 'troll/postcol.html', context)
 class PostListView(ListView):
     model = Post
-    template_name = 'troll/home.html' # <app>/<model>_<viewtype>.html
+    template_name = 'troll/postcol.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 3
@@ -90,9 +90,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-def about(request):
 
-    return render(request, 'troll/about.html', {'title': 'About'})
 
 
 

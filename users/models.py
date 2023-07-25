@@ -37,7 +37,7 @@ class Credit(models.Model):
     invested_score = models.IntegerField(default=0)
     owner_starts = models.BooleanField(default=True)
     daylater = models.BooleanField(default=False)
-    scoreback = models.IntegerField(default=0)
+    scoreback = models.IntegerField(default=-1)
     scorebackinfo = models.TextField(default="")
     scorebackreal = models.TextField(default="")
     aboutstart = models.BooleanField(default=False)

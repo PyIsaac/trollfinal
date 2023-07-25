@@ -1,7 +1,14 @@
-{% extends "troll/base.html" %}
+{% extends "baseabouts/baseabout3.html" %}
 
 {% load static %}
 {% block content %}
+<div class="container" style="max-width:700px">
+        <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="">Users chatting</h1>
+            <p class="lead">Here you can chat with others!</p>
+
+        </div>
+</div>
 <div class="py-5">
     <div class="row infinite-container">
         <h1 class="mb-3">Posts</h1>
@@ -29,6 +36,7 @@
             {% if page_obj.has_next %}
                 <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">next</a>
             {% endif %}
+            <a class="btn btn-outline-info nav-item nav-link" href="{% url 'aboutstart4' %}">Next</a>
         </div>
     </div>
 </div>

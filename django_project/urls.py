@@ -45,6 +45,12 @@ urlpatterns = [
     path('about/', user_views.about, name ='users-about'),
     path('thorton/', user_views.thorton, name='thorton'),
     path('leaderboard/', user_views.highscores, name='leader'),
+    path('aboutstart/', user_views.aboutstart, name='aboutstart'),
+    path('about/aboutstart/', user_views.aboutstart1, name='aboutstart1'),
+    path('leaderboard/aboutstart/', user_views.aboutstart2, name='aboutstart2'),
+    path('posts/aboutstart/', user_views.aboutstart3, name='aboutstart3'),
+    path('end/aboutstart/', user_views.aboutstart4, name='aboutstart4'),
+    path('help/', user_views.aboutstarthelp, name='aboutstarthelp'),
 
 
 
