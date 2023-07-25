@@ -22,7 +22,10 @@ ul {
 a {
     color: #e9ecefe8;
     text-decoration: none;
-    background-color: rgb(0 0 0 / 8%);
+    background-color: rgb(2 7 90 / 8%);
+}
+a:hover {
+  color: hotpink;
 }
 
 .bg-black {

@@ -19,28 +19,51 @@
         }
 
         .rainbow-textpost span {
-            animation: rainbow-letter 5s linear infinite;
+            animation: rainbow-letter 1s linear infinite;
         }
 
         @keyframes rainbow-letter {
             0.01% { color: yellow; }
-            30% { color: grey ; }
-            69% { color: white; }
+            30% { color: Cyan ; }
+            69% { color: blue; }
+            0.01% { color: purple; }
+            30% { color: green ; }
+            69% { color: DarkMagenta }
+            0.01% { color: Gold; }
+            30% { color: Lavender ; }
+            69% { color: LightYellow; }
+            0.01% { color: MediumPurple; }
+            30% { color: OldLace ; }
+            69% { color: Peru ; }
 
+
+
+        }
+        .arrow {
+            animation: arrow-bounce 2s infinite;
+        }
+
+        @keyframes arrow-bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateX(-3px);
+            }
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            var colors = ['grey', 'white', 'yellow'];
-            var delay = 0;
+            var colors = ['neon', 'yellow','orange', 'purple', 'yellow, Cyan, DarkMagenta, Gold, Lavender, LightYellow, MediumPurple, OldLace, Peru'];
+            var delay = 0.01;
             $('.rainbow-textpost').each(function() {
                 var text = $(this).text();
                 var newText = '';
                 for (var i = 0; i < text.length; i++) {
                     var letter = text[i];
                     var colorIndex = i % colors.length;
-                    var animationDelay = delay + colorIndex * 0.1; // Adjust the delay duration as needed
+                    var animationDelay = delay + colorIndex * 0.001; // Adjust the delay duration as needed
                     newText += '<span class="letter" style="animation-delay:' + animationDelay + 's; color:' + colors[colorIndex] + '">' + letter + '</span>';
                     delay += 0.1; // Adjust the delay duration as needed
                 }
@@ -51,9 +74,10 @@
 
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -78,28 +102,27 @@
      <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'troll-home' %}">Django /a>
+          <a class="navbar-brand mr-4">Django /a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'troll-home' %}">Home</a>
-                {% if user.is_authenticated and has_scoreback > 0 %}
-                    <a class="nav-item nav-link" href="{% url 'users-about' %}">About</a>
+              <a class="nav-item nav-link" href="{% url 'troll-home' %}">Exit toturial</a>
+                {% if user.is_authenticated %}
+                  <a class="nav-item nav-link" href="{% url 'aboutstart1' %}">About  <span class="arrow rainbow-textpost"> <--</span></a>
                 {% endif %}
-                <a class="nav-item nav-link" href="{% url 'aboutstarthelp' %}">Help</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
 
-                <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-                <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+
+                <a class="nav-item nav-link" >Profile</a>
+                <a class="nav-item nav-link" >Logout</a>
               {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                <a class="nav-item nav-link" >Login</a>
+                <a class="nav-item nav-link" >Register</a>
               {% endif %}
             </div>
           </div>
@@ -123,15 +146,15 @@
             {% endfor %}
           {% endif %}
           {% block content %}{% endblock %}
-          
+
         </div>
         <div class="col-md-4" style="position: fixed; top: 10vh; right: 0; height: 100vh;">
           <div class="content-section">
             <h3>Our Sidebar</h3>
             <p class='text-muted'>Channel links
               <ul class="list-group">
-                <li class="list-group-item list-group-item-bg-black"><a class="nav-item nav-link" href="{% url 'leader' %}">Leaderboard</a></li>
-                <li class="list-group-item list-group-item-bg-black"><a class="nav-item nav-link rainbow-textpost" href="{% url 'troll-postcol' %}">SHItposts!!</a></li>
+                <li class="list-group-item list-group-item-bg-black"><a class="nav-item nav-link" >Leaderboard</a></li>
+                <li class="list-group-item list-group-item-bg-black"><a class="nav-item nav-link" >SHItposts!!</a></li>
                 <li class="list-group-item list-group-item-bg-black"></li>
                 <li class="list-group-item list-group-item-bg-black"></li>
               </ul>

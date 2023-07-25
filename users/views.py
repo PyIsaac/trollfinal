@@ -12,7 +12,8 @@ from django.http import HttpResponse
 import json
 from django.http import HttpResponseBadRequest
 import time
-
+from django.views.generic import ListView
+from troll.views import Post as Posttroll
 
 
 def register(request):
@@ -71,7 +72,7 @@ def play_game(request):
     user = request.user
     game = play_game
     top_scores = Credit.objects.order_by('-score')[:10]
-    messages.warning(request, 'After you invest your score, it will take x hours to update so you can leave for then.')
+    messages.warning(request, 'After you invest your score, it will take 14 seconds to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
         score = score_obj.score
@@ -165,6 +166,9 @@ def play_game(request):
                             #messages.warning(request, 'Warning message here.')
 
                             time.sleep(5)
+
+                            if score_obj.scoreback == -1:
+                                score_obj.aboutstart = True
                             score_obj.save()
                             score11 = Credit.objects.get(user=user)
                             score11.scoreback = game.progresstrack()
@@ -172,7 +176,10 @@ def play_game(request):
                             score11.scorebackinfo = context['result'] = "Your score is now {}.".format(progress)
                             score11.scorebackreal = game.scorebackrl()
                             score11.save()
-                            return redirect('users-about')
+                            if score_obj.aboutstart:
+                                return redirect('aboutstart')
+                            else:
+                                return redirect('users-about')
 
                         else:
 
@@ -361,7 +368,7 @@ def thorton(request):
     game = thorton
     top_scores = Credit.objects.order_by('-score')[:10]
     user = request.user
-    messages.warning(request, 'After you invest your score, it will take x hours to update so you can leave for then.')
+    messages.warning(request, 'After you invest your score, it will take 14 seconds to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
         score = score_obj.score
@@ -446,6 +453,8 @@ def thorton(request):
                             # messages.warning(request, 'Warning message here.')
 
                             time.sleep(5)
+                            if score_obj.scoreback == -1:
+                                score_obj.aboutstart = True
                             score_obj.save()
                             score11 = Credit.objects.get(user=user)
                             score11.scoreback = game.progresstrack()
@@ -453,7 +462,10 @@ def thorton(request):
                             score11.scorebackinfo = context['result'] = "Your score is now {}.".format(progress)
                             score11.scorebackreal = game.scorebackrl()
                             score11.save()
-                            return redirect('users-about')
+                            if score_obj.aboutstart:
+                                return redirect('aboutstart')
+                            else:
+                                return redirect('users-about')
 
                         else:
 
@@ -526,6 +538,66 @@ def highscores(request):
     }
 
     return render(request, 'users/highscores.html', context)
+
+@login_required
+def aboutstart(request):
+    credit = Credit.objects.get(user=request.user)
+    credit.aboutstart = False
+    credit.save()
+
+    return render(request, 'aboutstarts/aboutstart.html')
+@login_required
+def aboutstart1(request):
+    a = Credit.objects.get(user=request.user)
+    score = a.scoreback
+    ano = a.scorebackinfo
+    aa = a.scorebackreal
+
+    context = {
+        "info": score,
+        "info2": ano,
+        "info3": aa
+    }
+    return render(request, 'aboutstarts/aboutstart1.html', context)
+@login_required
+def aboutstart2(request):
+    queryset = Credit.objects.order_by('-score')[:2]
+
+    if queryset:
+        first_credit = queryset[0]
+        username = first_credit.user.username
+        score = first_credit.score
+    else:
+        username = None
+        score = None
+
+    context = {
+        'username': username,
+        'score': score,
+        'scores': queryset,
+    }
+
+    return render(request, 'aboutstarts/aboutstart2.html', context)
+@login_required
+def aboutstart3(request):
+    context = {
+        'posts': Posttroll.objects.all()[:2]
+    }
+
+    return render(request, 'aboutstarts/aboutstart3.html', context)
+@login_required
+def aboutstart4(request):
+
+    return render(request, 'aboutstarts/aboutstart4.html')
+@login_required
+def aboutstarthelp(request):
+    credit = Credit.objects.get(user=request.user)
+    credit.aboutstart = False
+    credit.scoreback = 0
+    credit.save()
+    return render(request, 'aboutstarts/aboutstarthelp.html')
+
+
 
 
 
