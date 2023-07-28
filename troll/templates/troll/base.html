@@ -85,7 +85,7 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
                 <a class="nav-item nav-link" href="{% url 'troll-home' %}">Home</a>
-                {% if user.is_authenticated and has_scoreback > 0 %}
+                {% if user.is_authenticated and has_scoreback >= 0 %}
                     <a class="nav-item nav-link" href="{% url 'users-about' %}">About</a>
                 {% endif %}
                 <a class="nav-item nav-link" href="{% url 'aboutstarthelp' %}">Help</a>

@@ -51,6 +51,8 @@ urlpatterns = [
     path('posts/aboutstart/', user_views.aboutstart3, name='aboutstart3'),
     path('end/aboutstart/', user_views.aboutstart4, name='aboutstart4'),
     path('help/', user_views.aboutstarthelp, name='aboutstarthelp'),
+    path('leaderboard/2000+/', user_views.reached2000, name='reached2000'),
+    path('leaderboard/2000+/congrats', user_views.reached2000congrats, name='r2000c'),
 
 
 

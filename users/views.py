@@ -70,8 +70,12 @@ class DateTimeEncoderExtra(DjangoJSONEncoder):
 @login_required
 def play_game(request):
     user = request.user
+    user_scorecheck = Credit.objects.filter(user=user).values_list('score', flat=True).first()
+
+    # Check if the user's score is greater than or equal to 2000
+
     game = play_game
-    top_scores = Credit.objects.order_by('-score')[:10]
+
     messages.warning(request, 'After you invest your score, it will take 14 seconds to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
@@ -89,7 +93,12 @@ def play_game(request):
         score = score_obj.score
         date_created = timezone.now() - score_obj.date_posted
 
-
+    if user_scorecheck and user_scorecheck >= 2000:
+        if not score_obj.reached2000:
+            reached_score_2000 = True
+        else: reached_score_2000 = False
+    else:
+        reached_score_2000 = False
     invested = None
     #date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     #data1 = request.body.decode('utf-8')#--contains nothing?
@@ -178,6 +187,8 @@ def play_game(request):
                             score11.save()
                             if score_obj.aboutstart:
                                 return redirect('aboutstart')
+                            elif reached_score_2000:
+                                return redirect('r2000c')
                             else:
                                 return redirect('users-about')
 
@@ -224,7 +235,6 @@ def play_game(request):
         enddata = {
             'datetime': request.session.get('last_action'),
             'context': context,
-            'scores': top_scores
         }
         json_data = json.dumps({'data':str(enddata)}, cls=DateTimeEncoderExtra)
 
@@ -368,6 +378,13 @@ def thorton(request):
     game = thorton
     top_scores = Credit.objects.order_by('-score')[:10]
     user = request.user
+    user_scorecheck = Credit.objects.filter(user=user).values_list('score', flat=True).first()
+
+    # Check if the user's score is greater than or equal to 2000
+    if user_scorecheck and user_scorecheck >= 2000:
+        reached_score_2000 = True
+    else:
+        reached_score_2000 = False
     messages.warning(request, 'After you invest your score, it will take 14 seconds to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
@@ -464,6 +481,8 @@ def thorton(request):
                             score11.save()
                             if score_obj.aboutstart:
                                 return redirect('aboutstart')
+                            elif reached_score_2000:
+                                return redirect('reached2000')
                             else:
                                 return redirect('users-about')
 
@@ -542,7 +561,7 @@ def highscores(request):
 @login_required
 def aboutstart(request):
     credit = Credit.objects.get(user=request.user)
-    credit.aboutstart = False
+    credit.score = False
     credit.save()
 
     return render(request, 'aboutstarts/aboutstart.html')
@@ -596,6 +615,36 @@ def aboutstarthelp(request):
     credit.scoreback = 0
     credit.save()
     return render(request, 'aboutstarts/aboutstarthelp.html')
+
+@login_required
+def reached2000(request):
+    users_with_score_2000 = Credit.objects.filter(score__gte=2000).values_list('score', 'user__username')
+
+    # Create an empty dictionary to store the names with scores as keys
+    names_dict = {}
+
+    # Add the names and scores to the dictionary
+    for score, username in users_with_score_2000:
+        names_dict[score] = username
+
+    # Sort the dictionary by keys (scores) in ascending order
+    sorted_names = [names_dict[score] for score in sorted(names_dict.keys())]
+
+    context = {
+        'sorted_names': sorted_names
+    }
+
+
+    return render(request, 'users/reached2000.html', context)
+
+def reached2000congrats(request):
+    score_obj = Credit.objects.get(user=request.user)
+    score_obj.reached2000 = True
+    score_obj.save()
+    return render(request, 'users/reached2000congrats.html')
+
+
+
 
 
 
