@@ -1,0 +1,13 @@
+{% extends "troll/base.html" %}
+{% block content %}
+<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="">Legendary status!</h1>
+            <p class="lead">Congratz for reaching 2000 score, you are one of little warriors who have been loyal to us till the end,
+                now we are honored to display your name in our special 2000+ playerlist!
+
+            </p>
+                <div class="container" style="max-width:700px">
+                    <a class="btn btn-outline-info nav-item nav-link" href="{% url 'leader' %}">Go to leaderboard</a>
+                </div>
+</div>
+{% endblock content %}

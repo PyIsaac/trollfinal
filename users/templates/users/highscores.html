@@ -40,7 +40,7 @@
         });
     </script>
 </head>
-<h1>Users High Scores</h1>
+<h1>Users High Scores</h1> <a style="color:#4076b1;" href="{% url 'reached2000' %}"> <u>Users who reached 2000</u></a>
 <br>
 {% if username and score %}
     <strong><p class="rainbow-text">Top user: {{ username }} - {{ score }}</p></strong>

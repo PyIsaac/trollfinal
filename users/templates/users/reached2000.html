@@ -1,0 +1,14 @@
+{% extends "troll/base.html" %}
+{% block content %}
+<h1>Users who reached 2000 score in order:</h1>
+<br>
+<h3>
+<ol>
+    {% for name in sorted_names %}
+    <li>{{ name }}</li>
+    {% endfor %}
+</ol>
+</h3>
+<br>
+<h5>Please do not risk with your score before prizes have been given out</h5>
+{% endblock content %}
