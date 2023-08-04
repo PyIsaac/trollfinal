@@ -1,0 +1,21 @@
+{% extends "troll/base.html" %}
+<!-- transfer_score.html -->
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <h1>Crypto webhook purchase</h1>
+  <br>
+  <h4>One weebhook purchase is 200 score, and onetime use only!
+  Please consider risk what come with this weebhook:<br>
+    <br>
+  It steals users score who invests in crypto and gives their inputted score to you,<br> but the amount what you might get is
+  unknown.<br> That means players who just invest 1 score will just lose 1 and you as a webhook buyer just gets 1 score.
+  <br><br>
+  When you understand the risk confirm your wish to purchees typing random letters in "Confirm purchase"</h4>
+
+<br>
+  <label for="amount">Confirm purchase:</label>
+  <input type="text" name="amount" id="amount" required>
+  <input type="submit" value="Transfer">
+</form>
+{% endblock %}
