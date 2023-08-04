@@ -131,7 +131,7 @@ def play_game(request):
         startdate = datetime(2023, 4, 28, 15, 30, 45) #request.POST.get('startdate', '2023-04-23')
         enddate = () #request.POST.get('enddate', '2023-04-24')
         if startdate is not None:
-            
+
 
             i = True
             #startdate_obj = json_data1
@@ -145,7 +145,7 @@ def play_game(request):
             else:
 
                 playerinput = float(request.POST.get('player_input', 0))
-                
+
                 game = Game(score, playerinput)
 
 
@@ -154,7 +154,7 @@ def play_game(request):
                     request.session['invested'] = playerinput
                     request.session['last_action'] = str(timezone.now())
 
-                    
+
 
                     updated_score = game.get_updated_score()
                     if updated_score is False:
@@ -217,8 +217,8 @@ def play_game(request):
                             score_obj.save()
                             return HttpResponseBadRequest("game.get_progress(")
 
-                            
-                        
+
+
                 else:
                     context['error'] = 'Not enough credit to invest'
         else:
