@@ -42,8 +42,10 @@ class Credit(models.Model):
     scorebackreal = models.TextField(default="")
     aboutstart = models.BooleanField(default=False)
     reached2000 = models.BooleanField(default=False)
+    ownsrob = models.BooleanField(default=False)
 
-
+    def __str__(self):
+        return f"{self.user.username} Profile"
     def update_score(self):
         if self.owner_starts and self.user is not None:
             # Retrieve the user's credit object from the database

@@ -53,7 +53,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -88,6 +88,7 @@
                 {% if user.is_authenticated and has_scoreback >= 0 %}
                     <a class="nav-item nav-link" href="{% url 'users-about' %}">About</a>
                 {% endif %}
+                <a class="nav-item nav-link" href="{% url 'shop' %}">Shop</a>
                 <a class="nav-item nav-link" href="{% url 'aboutstarthelp' %}">Help</a>
             </div>
             <!-- Navbar Right Side -->
@@ -122,9 +123,8 @@
             </div>
             {% endfor %}
           {% endif %}
+
           {% block content %}{% endblock %}
-
-
         </div>
         <div class="col-md-4" style="position: fixed; top: 10vh; right: 0; height: 100vh;">
           <div class="content-section">

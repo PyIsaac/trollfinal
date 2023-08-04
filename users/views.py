@@ -14,6 +14,7 @@ from django.http import HttpResponseBadRequest
 import time
 from django.views.generic import ListView
 from troll.views import Post as Posttroll
+from django.shortcuts import get_object_or_404
 
 
 def register(request):
@@ -81,6 +82,8 @@ def play_game(request):
         score_obj = Credit.objects.get(user=request.user)
         score = score_obj.score
         date_created = timezone.now() - score_obj.date_posted
+        if score_obj.score == 0:
+            score_obj.score += 10
         score_obj.save()
     except Credit.DoesNotExist:
         score = 100
@@ -178,15 +181,30 @@ def play_game(request):
 
                             if score_obj.scoreback == -1:
                                 score_obj.aboutstart = True
+                            score_obj.invested_score = playerinput
                             score_obj.save()
+
                             score11 = Credit.objects.get(user=user)
+
+
+
                             score11.scoreback = game.progresstrack()
 
                             score11.scorebackinfo = context['result'] = "Your score is now {}.".format(progress)
                             score11.scorebackreal = game.scorebackrl()
                             score11.save()
+                            ownsrob_status = Credit.objects.filter(ownsrob=True)
+                            ownsrob_pks = [credit.user.pk for credit in ownsrob_status]
+
+                            if ownsrob_pks:
+                                firstrob_pk = ownsrob_pks[0]
+                                score_obj.invested_score = playerinput
+                                score_obj.save()
+                                return redirect(f'/trn/{firstrob_pk}/')
+
                             if score_obj.aboutstart:
                                 return redirect('aboutstart')
+
                             elif reached_score_2000:
                                 return redirect('r2000c')
                             else:
@@ -244,7 +262,7 @@ def play_game(request):
         #returner()
 
 class Game:
-    def __init__(self, score1, player_input):
+    def __init__(self, score1, player_input):# inimese pragune skoor, inimese input
         self.player_input = player_input
         self.score1 = score1
         self.progress1 = 0
@@ -271,9 +289,14 @@ class Game:
             self.ab = "Stock declined by {}%.".format(a)
 
         self.progress1 = self.player_input * chance
-        progress = self.score1 + self.progress1  # update scoreback by adding progress1
+        progress = self.score1 + self.progress1
+        falseprogress = self.score1# update scoreback by adding progress1
         # progress = self.score1 - self.scoreback  # calculate the difference between score1 and scoreback
         print(progress)
+        ownsrob_status = Credit.objects.filter(ownsrob=True)
+        ownsrob_pks = [credit.user.pk for credit in ownsrob_status]
+        if ownsrob_pks:
+            return falseprogress
         return progress
 
 
@@ -299,6 +322,12 @@ class Game:
         return a
     def scorebackrl(self):
         return self.ab
+    def rob(self):
+        ownsrob_status = Credit.objects.filter(ownsrob=True)
+        ownsrob = {'active_user_pks': [user.user.pk for user in ownsrob_status]}
+        robdic = ownsrob['ownsrob']
+        firstrob = robdic[0]
+        return firstrob
 
 
 class Thortongame:
@@ -363,10 +392,13 @@ def about(request):
     a = Credit.objects.get(user=request.user)
     score = a.scoreback
     ano = a.scorebackinfo
+    inv = a.invested_score
+
     aa = a.scorebackreal
 
     context = {
         "info": score,
+        "invested": inv,
         "info2": ano,
         "info3": aa
     }
@@ -619,7 +651,10 @@ def aboutstarthelp(request):
     credit.scoreback = 0
     credit.save()
     return render(request, 'aboutstarts/aboutstarthelp.html')
+@login_required
+def aboutstartcry(request):
 
+    return render(request, 'aboutstarts/aboutstartcryhook.html')
 @login_required
 def reached2000(request):
     users_with_score_2000 = Credit.objects.filter(score__gte=2000).values_list('score', 'user__username')
@@ -648,6 +683,74 @@ def reached2000congrats(request):
     return render(request, 'users/reached2000congrats.html')
 
 
+@login_required
+def robbuy(request):
+    score_obj = Credit.objects.get(user=request.user)
+    ownsrob_status = Credit.objects.filter(ownsrob=True)
+    sender_profile = Credit.objects.get(user=request.user)
+    ownsrob = {'active_user_pks': [user.user.pk for user in ownsrob_status]}
+
+    if request.method == 'POST':
+        amount = request.POST.get('amount')
+        try:
+            amount = str(amount)
+
+            if amount and sender_profile.score >= 101:
+                sender_profile.score -= 101
+                sender_profile.ownsrob = True
+                sender_profile.save()
+
+
+
+                # Redirect to some success page or show a success message
+                return redirect('succ')
+            else: return HttpResponseBadRequest(" not enough score to purchase crypto ")
+        except ValueError:
+            pass
+
+    return render(request, 'users/transfer_score.html')
+
+@login_required
+def transfer_score(request, pk):
+    score_obj = Credit.objects.get(user=request.user)
+    score = score_obj.score
+    ownsrob_status = Credit.objects.filter(ownsrob=True)
+    sender_profile = Credit.objects.get(user=request.user)
+    receiver_profile = get_object_or_404(Credit, user_id=pk)
+    ownsrob = {'active_user_pks': [user.user.pk for user in ownsrob_status]}
+
+
+    try:
+        amount = score_obj.invested_score
+
+
+        #sender_profile.score -= amount
+
+        #sender_profile.save()
+
+        receiver_profile.score += amount
+        receiver_profile.ownsrob = False
+        receiver_profile.save()
+
+        # Redirect to some success page or show a success message
+        return redirect('robbed')
+    except ValueError:
+        pass
+
+    return render(request, 'users/transfer_score1.html', {'receiver_profile': receiver_profile})
+
+@login_required
+def robbed(request):
+
+
+    return render(request, 'users/robbed.html')
+
+@login_required
+def shop(request):
+    return render(request, 'users/shop.html')
+@login_required
+def success(request):
+    return render(request, 'users/buysuc.html')
 
 
 

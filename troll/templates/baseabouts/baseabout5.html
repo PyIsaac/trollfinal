@@ -1,0 +1,200 @@
+{% load static %}
+<html lang="en">
+<style>
+    #content {
+        position: relative;
+    }
+    #content img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
+
+</style>
+    <style>
+        .rainbow-textpost {
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .rainbow-textpost span {
+            animation: rainbow-letter 1s linear infinite;
+        }
+
+        @keyframes rainbow-letter {
+            0.01% { color: yellow; }
+            30% { color: Cyan ; }
+            69% { color: blue; }
+            0.01% { color: purple; }
+            30% { color: green ; }
+            69% { color: DarkMagenta }
+            0.01% { color: Gold; }
+            30% { color: Lavender ; }
+            69% { color: LightYellow; }
+            0.01% { color: MediumPurple; }
+            30% { color: OldLace ; }
+            69% { color: Peru ; }
+
+
+
+        }
+        .arrow {
+            animation: arrow-bounce 2s infinite;
+        }
+
+        @keyframes arrow-bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateX(-3px);
+            }
+        }
+        .above {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1em;
+          }
+          .above::before {
+            position: absolute;
+            top: 90%;
+            height: px;
+            width: 100%;
+
+            border-top: 0;
+            content: "";
+          }
+          .above .below {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 100%;
+            font-size: 1.2em;
+            text-align: center;
+          }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var colors = ['neon', 'yellow','orange', 'purple', 'yellow, Cyan, DarkMagenta, Gold, Lavender, LightYellow, MediumPurple, OldLace, Peru'];
+            var delay = 0.01;
+            $('.rainbow-textpost').each(function() {
+                var text = $(this).text();
+                var newText = '';
+                for (var i = 0; i < text.length; i++) {
+                    var letter = text[i];
+                    var colorIndex = i % colors.length;
+                    var animationDelay = delay + colorIndex * 0.001; // Adjust the delay duration as needed
+                    newText += '<span class="letter" style="animation-delay:' + animationDelay + 's; color:' + colors[colorIndex] + '">' + letter + '</span>';
+                    delay += 0.1; // Adjust the delay duration as needed
+                }
+                $(this).html(newText);
+            });
+        });
+    </script>
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'troll/main.css' %}">
+
+    <meta charset="UTF-8">
+    {% if title%}
+        <title>Django - {{ title }}</title>
+    {% else %}
+        <title>Magnum2000</title>
+    {% endif %}
+</head>
+<body>
+     <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4">Django /a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'troll-home' %}">Exit toturial</a>
+                {% if user.is_authenticated %}
+              <a class="nav-item nav-link" href="{% url 'aboutstart1' %}">About</a>
+              <a class="nav-item nav-link rainbow-textpost" href="{% url 'shop' %}">Shop</a>
+                {% endif %}
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+
+
+                <a class="nav-item nav-link" >Profile</a>
+                <a class="nav-item nav-link" >Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" >Login</a>
+                <a class="nav-item nav-link" >Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+     <div id="content">
+        <img src="https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?resize=476%2C280&ssl=1" class="ribbon" alt="" style="width:150px;height:700px" />
+        <div>some text...</div>
+     </div>
+
+    <main role="main" class="container">
+
+      <div class="row">
+        <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock %}
+
+        </div>
+        <div class="col-md-4" style="position: fixed; top: 10vh; right: 0; height: 100vh;">
+
+          <div class="content-section">
+            <h3>Our Sidebar</h3>
+            <p class='text-muted'>Channel links
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-bg-black">
+                    <a class="nav-item nav-link" href="{% url 'aboutstart2' %}">Leaderboard</a></li>
+                <li class="list-group-item list-group-item-bg-black"><a class="nav-item nav-link" >
+                    SHitPosts!!
+                </li>
+                <li class="list-group-item list-group-item-bg-black"></li>
+                <li class="list-group-item list-group-item-bg-black"></li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

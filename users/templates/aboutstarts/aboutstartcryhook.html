@@ -1,0 +1,24 @@
+{% extends "baseabouts/baseabout5.html" %}
+
+{% load static %}
+{% block content %}
+<div class="container" style="max-width:700px">
+        <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="">Here you can buy some extra stuff to make game funner!</h1>
+            <p class="lead">idk what more to say lol</p>
+
+        </div>
+</div>
+<h1 style="color:#38424a">Our shop list for now:</h1><br>
+<ul class="ingore">
+    <h3>
+        <li>
+            <a style="color:#38424a" href="{% url 'aboutstartshop' %}">
+                <u>Cpypto webhook - 101$</u>
+            </a>
+        </li>
+    </h3>
+</ul>
+<br>
+<a class="btn btn-outline-info nav-item nav-link" href="{% url 'aboutstart4' %}">Next</a>
+{% endblock %}

@@ -49,10 +49,17 @@ urlpatterns = [
     path('about/aboutstart/', user_views.aboutstart1, name='aboutstart1'),
     path('leaderboard/aboutstart/', user_views.aboutstart2, name='aboutstart2'),
     path('posts/aboutstart/', user_views.aboutstart3, name='aboutstart3'),
+    path('shop/aboutstart/', user_views.aboutstartcry, name='aboutstartshop'),
     path('end/aboutstart/', user_views.aboutstart4, name='aboutstart4'),
     path('help/', user_views.aboutstarthelp, name='aboutstarthelp'),
     path('leaderboard/2000+/', user_views.reached2000, name='reached2000'),
     path('leaderboard/2000+/congrats', user_views.reached2000congrats, name='r2000c'),
+    path('shop/cryptpoweb/', user_views.robbuy, name='buycry'),
+    path('trn/<int:pk>/', user_views.transfer_score, name='transfer_score'),
+    path('robbed/', user_views.robbed, name='robbed'),
+    path('shop/', user_views.shop, name='shop'),
+    path('shop/success', user_views.success, name='succ'),
+
 
 
 
