@@ -380,11 +380,9 @@ def thorton(request):
     user = request.user
     user_scorecheck = Credit.objects.filter(user=user).values_list('score', flat=True).first()
 
+
     # Check if the user's score is greater than or equal to 2000
-    if user_scorecheck and user_scorecheck >= 2000:
-        reached_score_2000 = True
-    else:
-        reached_score_2000 = False
+
     messages.warning(request, 'After you invest your score, it will take 14 seconds to update so you can leave for then.')
     try:
         score_obj = Credit.objects.get(user=request.user)
@@ -402,6 +400,12 @@ def thorton(request):
         score = score_obj.score
         date_created = timezone.now() - score_obj.date_posted
 
+    if user_scorecheck and user_scorecheck >= 2000:
+        if not score_obj.reached2000:
+            reached_score_2000 = True
+        else: reached_score_2000 = False
+    else:
+        reached_score_2000 = False
     invested = None
     # date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # data1 = request.body.decode('utf-8')#--contains nothing?
@@ -482,7 +486,7 @@ def thorton(request):
                             if score_obj.aboutstart:
                                 return redirect('aboutstart')
                             elif reached_score_2000:
-                                return redirect('reached2000')
+                                return redirect('r2000c')
                             else:
                                 return redirect('users-about')
 
@@ -561,7 +565,7 @@ def highscores(request):
 @login_required
 def aboutstart(request):
     credit = Credit.objects.get(user=request.user)
-    credit.score = False
+    credit.aboutstart = False
     credit.save()
 
     return render(request, 'aboutstarts/aboutstart.html')
