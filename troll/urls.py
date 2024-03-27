@@ -9,7 +9,7 @@ from .views import (
 	PostDeleteView,
 	UserPostListView
 
-)	
+)
 
 
 
@@ -28,8 +28,6 @@ urlpatterns = [
 
 
 ]
-
-
 
 
 

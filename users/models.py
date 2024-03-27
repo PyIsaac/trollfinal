@@ -33,7 +33,7 @@ class Credit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     score = models.IntegerField(default=100)
     date = models.DateTimeField(auto_now_add=True)
-    date_posted = models.DateTimeField(default=timezone.now())
+    date_posted = models.DateTimeField(default=timezone.now)
     invested_score = models.IntegerField(default=0)
     owner_starts = models.BooleanField(default=True)
     daylater = models.BooleanField(default=False)
@@ -43,9 +43,13 @@ class Credit(models.Model):
     aboutstart = models.BooleanField(default=False)
     reached2000 = models.BooleanField(default=False)
     ownsrob = models.BooleanField(default=False)
+    matchready = models.BooleanField(default=False)
+    splitpass = models.BooleanField(default=False)
+    #Matchfield = models.TextField(default="")
 
-    def __str__(self):
-        return f"{self.user.username} Profile"
+
+    """def __str__(self):
+        return f"{self.user.username} Profile"""""
     def update_score(self):
         if self.owner_starts and self.user is not None:
             # Retrieve the user's credit object from the database

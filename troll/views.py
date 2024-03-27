@@ -1,25 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.views.generic import (ListView, 
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView
-)
+from django.views.generic import (ListView,
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,
+                                  DeleteView
+                                  )
 from datetime import datetime, timedelta
 import random
 
 from .models import Post
 
-
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from users.models import Credit
-
-
-
-
 
 
 def home(request):
@@ -29,22 +24,26 @@ def home(request):
 
     return render(request, 'troll/home.html', context)
 
+
 def postscol(request):
     context = {
         'posts': Post.objects.all()
     }
 
     return render(request, 'troll/postcol.html', context)
+
+
 class PostListView(ListView):
     model = Post
-    template_name = 'troll/postcol.html' # <app>/<model>_<viewtype>.html
+    template_name = 'troll/postcol.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 3
 
+
 class UserPostListView(ListView):
     model = Post
-    template_name = 'troll/user_posts.html' # <app>/<model>_<viewtype>.html
+    template_name = 'troll/user_posts.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     paginate_by = 3
 
@@ -53,9 +52,9 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
-
 class PostDetailView(DetailView):
     model = Post
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -65,7 +64,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    
+
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
@@ -80,6 +79,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
@@ -89,9 +89,4 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-
-
-
-
-
 

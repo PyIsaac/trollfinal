@@ -17,6 +17,19 @@ class Post(models.Model):
 		return reverse('post-detail', kwargs={'pk': self.pk})
 
 
+class Fight(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+	Matchfield = models.TextField(default="")
+	selected = models.IntegerField(default=0)
+	messageback = models.TextField(default="")
+	secondredir = models.TextField(default="")
+
+
+	def get_info(self):
+		return self.Matchfield
+
+
+
 
 
 
