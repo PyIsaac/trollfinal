@@ -48,9 +48,10 @@
 {% if scores %}
     <h3><ol>
         {% for score in scores %}
-            <li><a href="{% url 'user-posts' username=score.user.username %}">{{ score.user.username }}</a> - {{ score.score }}</li>
+            <li><a href="{% url 'user-posts' post.author.username %}">{{ score.user.username }}</a> - {{ score.score }}</li>
         {% endfor %}
-    </ol></h3>
+        </ol>
+    </h3>
 {% else %}
     <p>No high scores found.</p>
 {% endif %}

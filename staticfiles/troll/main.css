@@ -39,7 +39,7 @@ a {
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: #4193c4;
 }
 
 .site-header .navbar-nav .nav-link.active {
@@ -80,7 +80,7 @@ a.article-title:hover {
 }
 
 .article-metadata a:hover {
-  color: #333;
+  color: #54ca42;
   text-decoration: none;
 }
 

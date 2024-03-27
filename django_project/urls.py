@@ -59,6 +59,10 @@ urlpatterns = [
     path('robbed/', user_views.robbed, name='robbed'),
     path('shop/', user_views.shop, name='shop'),
     path('shop/success', user_views.success, name='succ'),
+    path('splitorsteal/', user_views.splitorsteal, name='splitorsteal'),
+    path('splitorstealreal/<int:pk>/<int:pk1>/', user_views.splitorstealreal, name='splitorstealreal'),
+    path('splitorstealreal/<int:pk>/<int:pk1>/waitingroom', user_views.splitorstealwait, name='splitorstealwait'),
+    path('splitorstealreal/<int:pk>/<int:pk1>/final', user_views.splitorstealfinal, name='splitorstealfinal'),
 
 
 

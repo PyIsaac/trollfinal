@@ -18,6 +18,7 @@ ul {
     margin-bottom: -1px;
     background-color: #000000;
     border: 1px solid #ced4da;
+    border-radius: 3px;
 }
 a {
     color: #e9ecefe8;
@@ -25,7 +26,7 @@ a {
     background-color: rgb(2 7 90 / 8%);
 }
 a:hover {
-  color: hotpink;
+  color: #54ca42;
 }
 
 .bg-black {
@@ -57,6 +58,73 @@ a:hover {
   margin-bottom: 20px;
 }
 
+.content-spin {
+  width: 100%; /* Adjusted to 100% */
+  height: 50%; /* Adjusted to 100% */
+
+  background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+  position: relative; /* Changed to relative */
+  z-index: -1;
+
+  /* Removed the background property to keep the gradient */
+  padding: 10px 20px;
+  border: 10px solid #bed4ff;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.content-spin::before {
+  content: "";
+  width: 104%;
+  height: 102%;
+  border-radius: 8px;
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff, #3c67e3 43%, #4e00c2);
+    position: relative;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 100s linear infinite;
+}
+.content-spin::after {
+  position: absolute;
+  content: "";
+  top: calc(var(--card-height) / 6);
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(var(--card-height) / 6));
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff, #3c67e3 43%, #4e00c2);
+    opacity: 1;
+  transition: opacity .5s;
+  animation: spin 7s linear infinite;
+}
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
+}
+:root {
+  --card-height: 65vh;
+  --card-width: calc(var(--card-height) / 1.5);
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+}
 .article-title {
   color: #d0d5d9;
 }
